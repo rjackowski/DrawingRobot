@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">drawingRobot</string>
+    <string name="title_activity_bluetooth_configuration">BluetoothConfiguration</string>
+    <string name="info_bluetoothOff">Bluetooth nie jest włączony</string>
+    <string name="str_handMode">Tryb ręczny</string>
+    <string name="str_bluetoothConfiguration">Konfiguracja bluetooth</string>
+    <string name="str_autoMode">Tryb automatyczny</string>
+    <string name="title_activity_auto_mode">autoMode</string>
+</resources>
