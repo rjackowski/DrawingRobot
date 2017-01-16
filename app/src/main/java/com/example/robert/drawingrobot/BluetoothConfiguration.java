@@ -85,14 +85,9 @@ public class BluetoothConfiguration extends Activity {
     }
 
     public void ConnectThread(BluetoothDevice device) {
-        // Use a temporary object that is later assigned to mmSocket,
-        // because mmSocket is final
         BluetoothSocket tmp = null;
         mmDevice = device;
-
-        // Get a BluetoothSocket to connect with the given BluetoothDevice
         try {
-            // MY_UUID is the app's UUID string, also used by the server code
             Toast.makeText(getApplicationContext(), "wyslano skarpetke", Toast.LENGTH_LONG).show();
             tmp = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e) { Toast.makeText(getApplicationContext(), "zlapano wyjatka", Toast.LENGTH_LONG).show();}
@@ -105,8 +100,6 @@ public class BluetoothConfiguration extends Activity {
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
 
-        // Get the input and output streams, using temp objects because
-        // member streams are final
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
@@ -118,19 +111,15 @@ public class BluetoothConfiguration extends Activity {
 
 
     public void run() {
-        // Cancel discovery because it will slow down the connection
         BA.cancelDiscovery();
 
         try {
-            // Connect the device through the socket. This will block
-            // until it succeeds or throws an exception
             mmSocket.connect();
             Toast.makeText(getApplicationContext(), "probujemy sie polaczyc :)", Toast.LENGTH_LONG).show();
         } catch (IOException connectException) {
-            // Unable to connect; close the socket and get out
             try {
                 mmSocket.close();
-                Toast.makeText(getApplicationContext(), "nie pyklo:(", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "nie udalo sie", Toast.LENGTH_LONG).show();
             } catch (IOException closeException) { }
             return;
         }
@@ -141,8 +130,6 @@ public class BluetoothConfiguration extends Activity {
         temp=znak.getBytes();
         Toast.makeText(getApplicationContext(), "poszedl znak", Toast.LENGTH_LONG).show();
         write(temp);
-        // Do work to manage the connection (in a separate thread)
-       // manageConnectedSocket(mmSocket);
     }
 
     public void write(byte[] bytes) {

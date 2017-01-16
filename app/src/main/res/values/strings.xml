@@ -6,4 +6,7 @@
     <string name="str_bluetoothConfiguration">Konfiguracja bluetooth</string>
     <string name="str_autoMode">Tryb automatyczny</string>
     <string name="title_activity_auto_mode">autoMode</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="btn_clear">Wyczyść ekran</string>
 </resources>

@@ -24,7 +24,17 @@
             android:label="@string/title_activity_bluetooth_configuration" />
         <activity
             android:name=".autoMode"
-            android:label="@string/title_activity_auto_mode"></activity>
+            android:label="@string/title_activity_auto_mode" />
+
+        <receiver android:name=".myWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/my_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
