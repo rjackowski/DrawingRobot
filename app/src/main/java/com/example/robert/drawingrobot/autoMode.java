@@ -30,13 +30,15 @@ public class autoMode extends Activity {
     Canvas canvas;
     Button btnClear, btnConfirm;
     calculateTrajectory myTrajectory;
+
+
     int counter=0;
     @Override
     protected void onCreate(Bundle savedInstanceState) { // tworzenie projektu
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_auto_mode);
 
-        relativeLayout = (RelativeLayout) findViewById(R.id.rLayout); // przypisywanie id do zmiennejj
+        relativeLayout = (RelativeLayout) findViewById(R.id.rLayout); // przypisywanie id do zmiennej
 
         btnClear = (Button)findViewById(R.id.btnClear);
         btnConfirm = (Button)findViewById(R.id.btnConfirm);
@@ -76,6 +78,11 @@ public class autoMode extends Activity {
             @Override
             public void onClick(View v) {
                 myTrajectory.calculate();
+                Intent dest = new Intent(new Intent(getApplicationContext(), BluetoothConfiguration.class));
+                Bundle b=new Bundle();
+                b.putStringArrayList("dane", myTrajectory.CommandList);
+                dest.putExtras(b);
+                startActivity(dest);
             }
         });
 
@@ -97,7 +104,7 @@ public class autoMode extends Activity {
         private ArrayList<DrawingClass> DrawingClassArrayList = new ArrayList<DrawingClass>();
 
         @Override
-        public boolean onTouchEvent(MotionEvent event) {
+        public boolean onTouchEvent(MotionEvent event) { // Obsługa zdarzen zwiazanych z kliknieciem
 
             DrawingClass pathWithPaint = new DrawingClass();
 

@@ -27,9 +27,11 @@ import java.util.UUID;
 
 public class BluetoothConfiguration extends Activity {
 
+
+    ArrayList<String> dane;
     private BluetoothAdapter BA;
     private Set<BluetoothDevice> pairedDevices;
-    Button btnBluetoothInit,btnBluetoothTurnOff, btnDiscoverDevices;
+    Button btnBluetoothInit,btnBluetoothTurnOff, btnDiscoverDevices, btnSend;
     ListView listPairedDevices, listDiscoveredDevices;
     private ArrayAdapter<String> adapter ;
     private ArrayAdapter<String> adapterForDiscoveredDevices;
@@ -41,6 +43,8 @@ public class BluetoothConfiguration extends Activity {
    private  InputStream mmInStream;
     private  OutputStream mmOutStream;
     String znak="c";
+
+    ArrayList<String> urls;
     // Register the BroadcastReceiver
     IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 
@@ -52,6 +56,7 @@ public class BluetoothConfiguration extends Activity {
         btnBluetoothInit=(Button)findViewById(R.id.btnBluetoothInit);
         btnBluetoothTurnOff=(Button)findViewById(R.id.btnBluetoothTurnOff);
         btnDiscoverDevices=(Button)findViewById(R.id.btnDiscoverDevices);
+        btnSend=(Button)findViewById(R.id.btnSend);
         listPairedDevices=(ListView) findViewById(R.id.listPairedDevices);
         listDiscoveredDevices=(ListView) findViewById(R.id.listDiscoveredDevices);
 
@@ -72,6 +77,22 @@ public class BluetoothConfiguration extends Activity {
             @Override
             public void onClick(View v) {
                 discoverNewDevices();
+            }
+        });
+
+        btnSend.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                dane= getIntent().getStringArrayListExtra("dane");
+                byte[] temp;
+                temp=znak.getBytes();
+                write(temp);
+                for(int i=0; i< dane.size(); i++) {
+                    //temp = dane.get(i).getBytes();
+                    Toast.makeText(getApplicationContext(), dane.get(i), Toast.LENGTH_LONG).show();
+                    write(temp);
+                }
+                temp=znak.getBytes();
+                write(temp);
             }
         });
 
@@ -126,10 +147,7 @@ public class BluetoothConfiguration extends Activity {
 
         init(mmSocket);
 
-        byte[] temp;
-        temp=znak.getBytes();
-        Toast.makeText(getApplicationContext(), "poszedl znak", Toast.LENGTH_LONG).show();
-        write(temp);
+
     }
 
     public void write(byte[] bytes) {
