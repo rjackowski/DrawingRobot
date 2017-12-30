@@ -68,7 +68,7 @@ public class autoMode extends Activity {
                 myTrajectory.calculate();
                 Intent dest = new Intent(new Intent(getApplicationContext(), BluetoothConfiguration.class));
                 Bundle b=new Bundle();
-                b.putStringArrayList("dane", myTrajectory.CommandList);
+                b.putStringArrayList("dane", myTrajectory.commandList);
                 dest.putExtras(b);
                 startActivity(dest);
             }

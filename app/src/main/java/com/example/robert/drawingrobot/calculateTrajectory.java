@@ -13,242 +13,78 @@ import java.util.Arrays;
 /**
  * Created by Rob on 21.12.2017.
  */
-
+// Class for keeping trajectory and changing into commendList
 public class calculateTrajectory {
-    // klasa do przechowywania trajektorii i obliczania jej
 
-        private ArrayList<Location> LocationList = new ArrayList<>();
-        public ArrayList<String> CommandList = new ArrayList<>();
-        public void addElement(float x, float y,int marker) {
-            Location temp= new Location(x,y,marker);
-            LocationList.add(temp);
-        }
-        public void clear() {
-            LocationList.clear();
-        }
+    private ArrayList<Location> locationList = new ArrayList<>();
+    public ArrayList<String> commandList = new ArrayList<>();
+    public void addElement(float x, float y,int marker) {
+        Location temp= new Location(x,y,marker);
+        locationList.add(temp);
+    }
+    public void clear() {
+        locationList.clear();
+    }
 
-        public void calculate()
-        {
-            int numberOfIteration = 10;
-            int averageCounter = 0;
-            Float a, b;
-            Float sumOfY = 0.0f;
-            Float sumOfX = 0.0f;
-            Float regressionUp = 0.0f;
-            Float regressionDown = 0.0f;
-            Location tempLocation ;
-            ArrayList<Location> LocationListAfterRegression = new ArrayList<>();
-            ArrayList<Location> AveragePosition  = new ArrayList<>();
-             // Linear regression method
-            for (int i =0; i < LocationList.size(); i++) {
-                sumOfX += LocationList.get(i).getX();
-                sumOfY += LocationList.get(i).getY();
-                if(i % numberOfIteration == 0) { //we look for average positions for every part of points
-                    Location temp = new Location(sumOfX / numberOfIteration, sumOfY / numberOfIteration);
-                    AveragePosition.add(temp);
-                    sumOfY = 0.0f;
-                    sumOfX = 0.0f;
-                }
-            }
+    public void calculate()
+    {
+        ArrayList<Location> locationListAfterOptimization = new ArrayList<>();
 
-//            averageCounter  = 0;
-//            for (int i =0; i < LocationList.size(); i++) {
-//                if(i == 0) {
-//                    LocationListAfterRegression.add(LocationList.get(i)); // first point of locationList is firstPoint of new array
-//                }
-//                regressionUp += (LocationList.get(i).getX()- AveragePosition.get(averageCounter).getX()) * (LocationList.get(i).getY()- AveragePosition.get(averageCounter).getY());
-//                regressionDown +=   (float)Math.pow((LocationList.get(i).getX()- AveragePosition.get(averageCounter).getX()),2);
-//                if(i%numberOfIteration == 0 && i!=0){ //we look for average positions for every part of points
-//                    a = regressionUp /regressionDown;
-//                    b = AveragePosition.get(averageCounter).getY() - AveragePosition.get(averageCounter).getX() * a;
-//                    tempLocation = new Location();
-//                    tempLocation.setX(LocationList.get(i).getX());
-//                    tempLocation.setY(a*LocationList.get(i).getX()+b);
-//                    tempLocation.setMarker(LocationList.get(i).getMarker());
-//                    averageCounter++;
-//                    LocationListAfterRegression.add(tempLocation);
-//                }
-//            }
-
-
-                LocationListAfterRegression = DouglasPeucker(LocationList, 0.1f);
-                Log.d("Epsilon", " Size1: " + LocationListAfterRegression.size() );
-                LocationListAfterRegression = DouglasPeucker(LocationListAfterRegression,0.1f);
-                Log.d("Epsilon", " Size2: " + LocationListAfterRegression.size() );
-
-
-//
-//            for(int i=0;i<LocationListAfterRegression.size();i++) {
-//                float temp_distance = 0;
-//                float temp_angle = 0;
-//                float temp_angle2 = 0;
-//                float kat = 0;
-//                if (LocationListAfterRegression.get(i).getMarker() == 0)
-//                    CommandList.add("U");
-//                if (LocationListAfterRegression.get(i).getMarker() == 1)
-//                    CommandList.add("D");
-//                if (i == 1) {
-//                    temp_distance = (float) Math.hypot(LocationListAfterRegression.get(i).getX() - LocationListAfterRegression.get(i - 1).getX(), LocationListAfterRegression.get(i).getY() - LocationListAfterRegression.get(i - 1).getY());
-//                    CommandList.add("F" +  (temp_distance / 10));
-//                    Log.d("Pozycja", "F" + (int) (temp_distance / 10));
-//                } else if (i >= 2) {
-//                    temp_angle = (float) Math.atan2(LocationListAfterRegression.get(i - 1).getY() - LocationListAfterRegression.get(i).getY(), LocationListAfterRegression.get(i).getX() - LocationListAfterRegression.get(i - 1).getX()) * 180.0f / 3.1415926535f;
-//                    temp_angle2 = (float) Math.atan2(LocationListAfterRegression.get(i - 2).getY() - LocationListAfterRegression.get(i - 1).getY(), LocationListAfterRegression.get(i - 1).getX() - LocationListAfterRegression.get(i - 2).getX()) * 180.0f / 3.1415926535f;
-//                    kat = temp_angle2 - temp_angle;
-//                    if (kat > 180)
-//                        kat = -(360 - kat);
-//                    if (kat < -180)
-//                        kat = 360 + kat;
-//                    if (kat < -1) {
-//                        CommandList.add("L" +  (-kat));
-//                        Log.d("Pozycja", "L" + (int) (-kat));
-//                    }
-//                    if (kat > 1) {
-//                        CommandList.add("R" +  (kat));
-//                        Log.d("Pozycja", "R" + (int) (kat));
-//                    }
-//                    temp_distance = (float) Math.hypot(LocationListAfterRegression.get(i).getX() - LocationListAfterRegression.get(i - 1).getX(), LocationListAfterRegression.get(i).getY() - LocationListAfterRegression.get(i - 1).getY());
-//                    CommandList.add("F" +  (temp_distance / 10));
-//                    Log.d("Pozycja", "F" + (int) (temp_distance / 10));
-//                }
-//            }
-            String listLocationString = "";
-            listLocationString = "";
-            String listLocationWithRegressionString = "";
-            for (Location s : LocationList) {
-                listLocationString += s.getX() + "|" + s.getY() + ";";
-            }
-            for (Location s : LocationListAfterRegression) {
-                listLocationWithRegressionString += s.getX() + "|" + s.getY() + ";";
-            }
-
-
-//            Location temp = new Location();
-//            LocationList.clear();
-//            for(int i =0; i<1; i++){
-//                temp = new Location(100, 100);
-//                LocationList.add(temp);
-//                temp = new Location(150, 150);
-//                LocationList.add(temp);
-//                temp = new Location(200, 100);
-//                LocationList.add(temp);
-//                temp = new Location(200, 200);
-//                LocationList.add(temp);
-//                temp = new Location(150, 150);
-//                LocationList.add(temp);
-//                temp = new Location(100, 200);
-//                LocationList.add(temp);
-//              //  temp = new Location(222, 167);
-//                //LocationList.add(temp);
-//
-//                //temp = new Location(30, 100);
-//                //LocationList.add(temp);
-//            }
-
-
-
-
-//            Location temp = new Location();
-//            LocationList.clear();
-//            for(int i =0; i<1; i++){
-//            temp = new Location(200, 100);
-//            LocationList.add(temp);
-//                temp = new Location(150, 180);
-//                LocationList.add(temp);
-//                temp = new Location(100, 100);
-//                LocationList.add(temp);
-//                temp = new Location(69, 200);
-//                LocationList.add(temp);
-//            temp = new Location(150, 180);
-//            LocationList.add(temp);
-//                temp = new Location(212, 200);
-//                LocationList.add(temp);
-//            temp = new Location(200, 100);
-//            LocationList.add(temp);
+        String locationListString = "";
+        locationListString = "";
+        String locationListAfterOptimizationString = "";
+//        for (Location s : locationList) {
+//            locationListString += s.getX() + "|" + s.getY() + ";";
 //        }
-
-            listLocationString = "";
-            for (Location s : LocationList) {
-                listLocationString += s.getX() + "|" + s.getY() + ";";
-            }
-
-//            Location temp = new Location();
-//            LocationList.clear();
-//            for(int i =0; i<50; i++){
-//            temp = new Location(200, 200);
-//            LocationList.add(temp);
-//                temp = new Location(250, 150);
-//                LocationList.add(temp);
-//                temp = new Location(210, 100);
-//                LocationList.add(temp);
-//                temp = new Location(155, 60);
-//                LocationList.add(temp);
-//            temp = new Location(100, 100);
-//            LocationList.add(temp);
-//                temp = new Location(60, 150);
-//                LocationList.add(temp);
-//            temp = new Location(100, 200);
-//            LocationList.add(temp);
+//        for (Location s : locationListAfterOptimization) {
+//            locationListAfterOptimizationString += s.getX() + "|" + s.getY() + ";";
 //        }
-
-
-
-
-
-
-            for(int i=0;i<LocationList.size();i++) {
-                float temp_distance = 0;
-                float temp_angle = 0;
-                float temp_angle2 = 0;
-                double test_angle = 0;
-                float kat = 0;
-                if (LocationList.get(i).getMarker() == 0)
-                    CommandList.add("U");
-                if (LocationList.get(i).getMarker() == 1)
-                    CommandList.add("D");
-                if (i == 1) {
-                    temp_distance = (float) Math.hypot(LocationList.get(i).getX() - LocationList.get(i - 1).getX(), LocationList.get(i).getY() - LocationList.get(i - 1).getY());
-                    if(temp_distance > 0.1)
-                        CommandList.add("F" +  round((temp_distance / 10.0f),2));
-                } else if (i >= 2) {
-                   // if(LocationList.get(i).getX() != LocationList.get(i-1).getX() )
-                  //  temp_angle = ( LocationList.get(i).getY() - LocationList.get(i-1).getY() ) / (LocationList.get(i).getX() - LocationList.get(i - 1).getX())* 180.0f / 3.1415926535f;
-
-                    temp_angle = (float) Math.atan2(LocationList.get(i - 1).getY() - LocationList.get(i).getY(), LocationList.get(i).getX() - LocationList.get(i - 1).getX()) * 180.0f / 3.1415926535f;
-                    test_angle =   Math.atan2(200-150,(200-200))*180.0 /3.14;
-                    test_angle =   Math.atan2(200-200,(200-150))*180.0 /3.14;
-                    temp_angle2 = (float) Math.atan2(LocationList.get(i - 2).getY() - LocationList.get(i - 1).getY(), LocationList.get(i - 1).getX() - LocationList.get(i - 2).getX()) * 180.0f / 3.1415926535f;
-                    kat = temp_angle2 - temp_angle;
-                    if (kat > 180)
-                        kat = -(360 - kat);
-                    if (kat < -180)
-                        kat = 360 + kat;
-                    if (kat < -0.1) {
-                        CommandList.add("L" +  round(-kat,2));
-                        Log.d("Pozycja", "L" + (int) (-kat));
-                    }
-                    if (kat > 0.1) {
-                        CommandList.add("R" +  round(kat,2));
-                        Log.d("Pozycja", "R" + (int) (kat));
-                    }
-                    temp_distance = (float) Math.hypot(LocationList.get(i).getX() - LocationList.get(i - 1).getX(), LocationList.get(i).getY() - LocationList.get(i - 1).getY());
-                    if(temp_distance > 0.1)
-                        CommandList.add("F" + round( (temp_distance / 10.0f),2));
-                    Log.d("Pozycja", "F" + (int) (temp_distance / 10));
+        locationListAfterOptimization = DouglasPeucker ( locationList , 0.00001f); // Optimization number of points using DouglasPeucker algorithm
+        for(int i=0;i<locationListAfterOptimization.size();i++) { // changing locationList into commendlist
+            float temp_distance = 0;
+            float temp_angle = 0;
+            float temp_angle2 = 0;
+            float angle = 0;
+            if (locationListAfterOptimization.get(i).getMarker() == 0)
+                commandList.add("U");
+            if (locationListAfterOptimization.get(i).getMarker() == 1)
+                commandList.add("D");
+            if (i == 1) {
+                temp_distance = (float) Math.hypot(locationListAfterOptimization.get(i).getX() - locationListAfterOptimization.get(i - 1).getX(), locationListAfterOptimization.get(i).getY() - locationListAfterOptimization.get(i - 1).getY());
+                if(temp_distance > 0.1)
+                    commandList.add("F" +  round((temp_distance / 10.0f),2));
+            } else if (i >= 2) {
+                temp_angle = (float) Math.atan2(locationListAfterOptimization.get(i - 1).getY() - locationListAfterOptimization.get(i).getY(), locationListAfterOptimization.get(i).getX() - locationListAfterOptimization.get(i - 1).getX()) * 180.0f / 3.1415926535f;
+                temp_angle2 = (float) Math.atan2(locationListAfterOptimization.get(i - 2).getY() - locationListAfterOptimization.get(i - 1).getY(), locationListAfterOptimization.get(i - 1).getX() - locationListAfterOptimization.get(i - 2).getX()) * 180.0f / 3.1415926535f;
+                angle = temp_angle2 - temp_angle;
+                if (angle > 180)
+                    angle = -(360 - angle);
+                if (angle < -180)
+                    angle = 360 + angle;
+                if (angle < -0.1) {
+                    commandList.add("L" +  round(-angle,2));
                 }
+                if (angle > 0.1) {
+                    commandList.add("R" +  round(angle,2));
+                    Log.d("Pozycja", "R" + (int) (angle));
+                }
+                temp_distance = (float) Math.hypot(locationListAfterOptimization.get(i).getX() - locationListAfterOptimization.get(i - 1).getX(), locationListAfterOptimization.get(i).getY() - locationListAfterOptimization.get(i - 1).getY());
+                if(temp_distance > 0.1)
+                    commandList.add("F" + round( (temp_distance / 10.0f),2));
+                Log.d("Pozycja", "F" + (int) (temp_distance / 10));
             }
-
-            String result="";
-            result ="";
-            LocationList.clear();
-            for(String x : CommandList) {
-                result+= x + ";";
-            }
-            CommandList.clear();
-            Log.d("Pozycja", "F");
         }
 
-
+        String result="";
+        result ="";
+        locationList.clear();
+        for(String x : commandList) {
+            result+= x + ";";
+        }
+        commandList.clear();
+        Log.d("Pozycja", "F");
+    }
+    
     public static BigDecimal round(float d, int decimalPlace) {
         BigDecimal bd = new BigDecimal(Float.toString(d));
         bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
@@ -276,7 +112,6 @@ public class calculateTrajectory {
         if(dmax > epsilon) {
             res1 = new ArrayList<>(locationList.subList(0,index+1));
             res1 = DouglasPeucker(res1, epsilon);
-
             res2 = new ArrayList<>(locationList.subList(index,locationList.size()-1));
             res2 = DouglasPeucker(res2, epsilon);
             resultList =  new ArrayList<>(res1);
@@ -284,9 +119,6 @@ public class calculateTrajectory {
         }
         else
            resultList = new ArrayList<>(locationList);
-
         return resultList;
     }
-
-
 }
