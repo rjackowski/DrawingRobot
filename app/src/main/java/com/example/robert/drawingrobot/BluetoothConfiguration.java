@@ -53,11 +53,7 @@ public class BluetoothConfiguration extends Activity {
     IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
     private final Handler mHandler = new Handler();
 
-
-
-
-
-
+    
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_configuration);
@@ -102,7 +98,6 @@ public class BluetoothConfiguration extends Activity {
                 //Toast.makeText(getApplicationContext(), znak, Toast.LENGTH_LONG).show();
                    ;
 
-
             }
         });
 
@@ -140,8 +135,6 @@ public class BluetoothConfiguration extends Activity {
         mmOutStream = tmpOut;
     }
 
-
-
     public void sendData()
     {
         mHandler.postDelayed(new Runnable() {
@@ -150,6 +143,11 @@ public class BluetoothConfiguration extends Activity {
                 Toast.makeText(getApplicationContext(),  Integer.toString(iterator), Toast.LENGTH_LONG).show();
                 byte[] temp;
                 temp = dane.get(iterator).getBytes();
+                String result="";
+                for(String a : dane) {
+                    result += a +";";
+                }
+                result="";
                 Toast.makeText(getApplicationContext(), dane.get(iterator), Toast.LENGTH_LONG).show();
                 write(temp);
                 temp = ";".getBytes();

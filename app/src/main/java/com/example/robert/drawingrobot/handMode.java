@@ -10,22 +10,46 @@ import android.widget.ImageButton;
 
 public class handMode extends Activity {
 
-    ImageButton btnBackToMenu;
+    ImageButton btnTurnLeft;
+    ImageButton btnTurnRight;
+    ImageButton btnForward;
+    ImageButton btnBackward;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hand_mode);
-        btnBackToMenu=(ImageButton)findViewById(R.id.btnBackToMenu);
+        btnTurnLeft=(ImageButton)findViewById(R.id.btnTurnLeft);
+        btnTurnRight=(ImageButton)findViewById(R.id.btnTurnRight);
+        btnForward=(ImageButton)findViewById(R.id.btnForward);
+        btnBackward=(ImageButton)findViewById(R.id.btnBackward);
 
-        btnBackToMenu.setOnClickListener(new View.OnClickListener() {
+        btnTurnLeft.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), menu.class));
+
             }
         });
 
+        btnTurnRight.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
 
+        btnForward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        btnBackward.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 

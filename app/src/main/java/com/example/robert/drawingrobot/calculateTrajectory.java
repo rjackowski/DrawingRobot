@@ -9,6 +9,7 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 
 /**
  * Created by Rob on 21.12.2017.
@@ -62,27 +63,24 @@ public class calculateTrajectory {
                 if (angle < -180)
                     angle = 360 + angle;
                 if (angle < -0.1) {
-                    commandList.add("L" +  round(-angle,2));
+                    commandList.add("L" +  round(-angle,0));
                 }
                 if (angle > 0.1) {
-                    commandList.add("R" +  round(angle,2));
+                    commandList.add("R" +  round(angle,0));
                     Log.d("Pozycja", "R" + (int) (angle));
                 }
                 temp_distance = (float) Math.hypot(locationListAfterOptimization.get(i).getX() - locationListAfterOptimization.get(i - 1).getX(), locationListAfterOptimization.get(i).getY() - locationListAfterOptimization.get(i - 1).getY());
                 if(temp_distance > 0.1)
-                    commandList.add("F" + round( (temp_distance / 10.0f),2));
+                    commandList.add("F" + round( (temp_distance / 10.0f),0));
                 Log.d("Pozycja", "F" + (int) (temp_distance / 10));
             }
         }
 
         String result="";
-        result ="";
-        locationList.clear();
-        for(String x : commandList) {
-            result+= x + ";";
+        for(String a : commandList) {
+            result += a +";";
         }
-        commandList.clear();
-        Log.d("Pozycja", "F");
+        result="";
     }
 
     public static BigDecimal round(float d, int decimalPlace) {
