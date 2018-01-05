@@ -62,3 +62,5 @@
         android:layout_marginTop="100dp"
         android:scaleType="fitXY"
         android:src="@drawable/backward_arrow" />
+
+</RelativeLayout>
