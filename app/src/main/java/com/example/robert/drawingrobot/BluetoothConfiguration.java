@@ -177,7 +177,7 @@ public class BluetoothConfiguration extends Activity {
                     myBluetooth.write(temp);
                 }
             }
-        }, 1000);
+        }, 50);
     }
 
 
