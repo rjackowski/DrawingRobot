@@ -6,6 +6,8 @@ import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
@@ -14,16 +16,14 @@ import com.example.robert.drawingrobot.R;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
 /**
  * Created by Rob on 05.01.2018.
  */
-// class to keep variables responsible for Bluetooth Connection
-public class Bluetooth {
-
-
+public class Bluetooth implements Serializable{
 
     private BluetoothAdapter BA;
     private BluetoothSocket mmSocket;
@@ -36,6 +36,8 @@ public class Bluetooth {
     public Bluetooth(BluetoothAdapter BA) {
         this.BA = BA;
     }
+
+
 
     // łączenie urządzeń, uzyskiwanie mmSocket
     public void ConnectThread(BluetoothDevice device, Context context) {
@@ -62,7 +64,13 @@ public class Bluetooth {
         mmInStream = tmpIn;
         mmOutStream = tmpOut;
     }
-
+    public boolean isReady() {
+        if(mmInStream != null && mmSocket != null && mmDevice !=null && BA != null && mmOutStream !=null ) {
+            return true;
+        }
+        else
+            return false;
+    }
 
 
     public void run() {

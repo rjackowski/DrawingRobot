@@ -25,6 +25,7 @@ import com.example.robert.drawingrobot.Data.Bluetooth;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -37,6 +38,10 @@ public class BluetoothConfiguration extends Activity {
     ArrayList<String> dane;
     private BluetoothAdapter BA;
     Bluetooth myBluetooth;
+
+
+    Intent intent = new Intent();
+    Bundle bundle = new Bundle();
 
     private Set<BluetoothDevice> pairedDevices;
     Button btnBluetoothInit,btnBluetoothTurnOff, btnDiscoverDevices, btnSend;
@@ -148,6 +153,9 @@ public class BluetoothConfiguration extends Activity {
 
     public void onResume() {
         super.onResume();
+        //To pass:
+        if(myBluetooth.isReady())
+            intent.putExtra("bluetoothObject",  myBluetooth);
         registerReceiver(mReceiver, filter);
     }
 
