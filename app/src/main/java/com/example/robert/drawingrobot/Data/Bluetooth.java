@@ -51,6 +51,7 @@ public class Bluetooth implements Serializable{
 
     }
 
+    
     //inicjalizacja kanału do wysyłania i odbioru, mmInStream, mmOutStream
     public void  init(BluetoothSocket socket) {
         InputStream tmpIn = null;
@@ -86,6 +87,41 @@ public class Bluetooth implements Serializable{
             return;
         }
         init(mmSocket);
+    }
+
+    public void writeArrayList(ArrayList<String> dataArrayList) {
+        byte[] temp;
+        temp="X".getBytes();
+        write(temp);
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        for(int i=0; i < dataArrayList.size();i++) {
+            temp = dataArrayList.get(i).getBytes();
+            write(temp);
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            temp = ";".getBytes();
+            write(temp);
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+            temp="Y".getBytes();
+            write(temp);
+        try {
+            Thread.sleep(50);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void write(byte[] bytes) {

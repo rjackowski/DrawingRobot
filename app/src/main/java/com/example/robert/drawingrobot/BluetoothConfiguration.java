@@ -101,11 +101,13 @@ public class BluetoothConfiguration extends Activity {
             public void onClick(View v) {
 
                 dane= getIntent().getStringArrayListExtra("dane");
-                byte[] temp;
-                temp=znak.getBytes();
-                myBluetooth.write(temp);
-                iterator=0;
-                sendData();
+                myBluetooth.writeArrayList(dane);
+
+//                byte[] temp;
+//                temp=znak.getBytes();
+//                myBluetooth.write(temp);
+//                iterator=0;
+//                sendData();
                 //Toast.makeText(getApplicationContext(), znak, Toast.LENGTH_LONG).show();
                    ;
             }

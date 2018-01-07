@@ -29,11 +29,11 @@ public class calculateTrajectory {
 
     public void calculate()
     {
-        ArrayList<Location> locationListAfterOptimization = new ArrayList<>();
+        ArrayList<Location> locationListAfterOptimization;
 
-        String locationListString = "";
-        locationListString = "";
-        String locationListAfterOptimizationString = "";
+//        String locationListString = "";
+//        locationListString = "";
+//        String locationListAfterOptimizationString = "";
 //        for (Location s : locationList) {
 //            locationListString += s.getX() + "|" + s.getY() + ";";
 //        }
