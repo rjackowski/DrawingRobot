@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.robert.drawingrobot.Data.Bluetooth;
 
@@ -42,14 +43,21 @@ public class handMode extends Activity {
             @Override
             public void onClick(View v) {
                 if(myBluetooth.isReady()) {
-                    myBluetooth.turnOff();
+                    myBluetooth.sendString("L");
                 }
+                else
+                    Toast.makeText(getApplicationContext(), "First configure Bluetooth connection", Toast.LENGTH_LONG).show();
             }
         });
 
         btnTurnRight.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(myBluetooth.isReady()) {
+                    myBluetooth.sendString("R");
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "First configure Bluetooth connection", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -57,6 +65,11 @@ public class handMode extends Activity {
         btnForward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(myBluetooth.isReady()) {
+                    myBluetooth.sendString("F");
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "First configure Bluetooth connection", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -64,7 +77,11 @@ public class handMode extends Activity {
         btnBackward.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                if(myBluetooth.isReady()) {
+                    myBluetooth.sendString("B");
+                }
+                else
+                    Toast.makeText(getApplicationContext(), "First configure Bluetooth connection", Toast.LENGTH_LONG).show();
             }
         });
     }

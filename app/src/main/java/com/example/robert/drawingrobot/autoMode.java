@@ -75,7 +75,6 @@ public class autoMode extends Activity {
         });
 
     }
-
     class SketchSheetView extends View {
 
         public SketchSheetView(Context context) {
@@ -122,10 +121,8 @@ public class autoMode extends Activity {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
             if (DrawingClassArrayList.size() > 0) {
-
                 canvas.drawPath(
                         DrawingClassArrayList.get(DrawingClassArrayList.size() - 1).getPath(),
-
                         DrawingClassArrayList.get(DrawingClassArrayList.size() - 1).getPaint());
             }
         }

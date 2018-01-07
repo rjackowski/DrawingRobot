@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ArrayAdapter;
@@ -30,14 +31,14 @@ public class Bluetooth implements Serializable{
     private BluetoothDevice mmDevice;
     private InputStream mmInStream;
     private OutputStream mmOutStream;
+    private final Handler mHandler ;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     private static String address;
 
     public Bluetooth(BluetoothAdapter BA) {
         this.BA = BA;
+        this.mHandler = new Handler();
     }
-
-
 
     // łączenie urządzeń, uzyskiwanie mmSocket
     public void ConnectThread(BluetoothDevice device, Context context) {
@@ -51,12 +52,10 @@ public class Bluetooth implements Serializable{
 
     }
 
-    
     //inicjalizacja kanału do wysyłania i odbioru, mmInStream, mmOutStream
     public void  init(BluetoothSocket socket) {
         InputStream tmpIn = null;
         OutputStream tmpOut = null;
-
         try {
             tmpIn = socket.getInputStream();
             tmpOut = socket.getOutputStream();
@@ -89,45 +88,67 @@ public class Bluetooth implements Serializable{
         init(mmSocket);
     }
 
-    public void writeArrayList(ArrayList<String> dataArrayList) {
+//
+//    public void sendData()
+//    {
+//        mHandler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Toast.makeText(getApplicationContext(),  Integer.toString(iterator), Toast.LENGTH_LONG).show();
+//                byte[] temp;
+//                temp = dane.get(iterator).getBytes();
+//                String result="";
+//                for(String a : dane) {
+//                    result += a +";";
+//                }
+//                result="";
+//                Toast.makeText(getApplicationContext(), dane.get(iterator), Toast.LENGTH_LONG).show();
+//                myBluetooth.write(temp);
+//                temp = ";".getBytes();
+//                myBluetooth.write(temp);
+//                iterator++;
+//                if(iterator<dane.size()) // gdy iterator nie przekroczy rozmaiaru tablicy wracamy do tej samej funkcji
+//                    sendData();
+//                else {
+//                    temp="Y".getBytes();
+//                    myBluetooth.write(temp);
+//                }
+//            }
+//        }, 50);
+//    }
+    public void sendString(String a) {
         byte[] temp;
-        temp="X".getBytes();
+        temp = a.getBytes();
         write(temp);
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    }
 
+// method to send all ArrayList to robot
+    public void sendArrayList(ArrayList<String> dataArrayList) {
+        byte[] temp;
+        temp="X".getBytes(); // X is signal for robot about starting receiving data
+        write(temp);
         for(int i=0; i < dataArrayList.size();i++) {
             temp = dataArrayList.get(i).getBytes();
             write(temp);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
             temp = ";".getBytes();
             write(temp);
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }
-            temp="Y".getBytes();
+            temp="Y".getBytes(); // Y is signal for robot about ending receiving data
             write(temp);
-        try {
-            Thread.sleep(50);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
-    public void write(byte[] bytes) {
-        try {
-            mmOutStream.write(bytes);
-        } catch (IOException e) { }
+    public void write(final byte[] bytes) {
+        // 50 ms delay between sending data
+        mHandler.postDelayed(new Runnable() {
+            @Override
+          public void run() {
+                try {
+                    mmOutStream.write(bytes);
+                } catch (
+                        IOException e) {
+                }
+            }
+        },50);
     }
     // wylaczanie bluetootha
     public void  turnOff() {

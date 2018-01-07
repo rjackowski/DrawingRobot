@@ -101,7 +101,7 @@ public class BluetoothConfiguration extends Activity {
             public void onClick(View v) {
 
                 dane= getIntent().getStringArrayListExtra("dane");
-                myBluetooth.writeArrayList(dane);
+                myBluetooth.sendArrayList(dane);
 
 //                byte[] temp;
 //                temp=znak.getBytes();
@@ -169,34 +169,6 @@ public class BluetoothConfiguration extends Activity {
         ((BluetoothApllication)this.getApplicationContext()).bluetoothObject = myBluetooth;
     }
 
-    public void sendData()
-    {
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getApplicationContext(),  Integer.toString(iterator), Toast.LENGTH_LONG).show();
-                byte[] temp;
-                temp = dane.get(iterator).getBytes();
-                String result="";
-                for(String a : dane) {
-                    result += a +";";
-                }
-                result="";
-                Toast.makeText(getApplicationContext(), dane.get(iterator), Toast.LENGTH_LONG).show();
-                myBluetooth.write(temp);
-                temp = ";".getBytes();
-                myBluetooth.write(temp);
-                iterator++;
-                if(iterator<dane.size()) // gdy iterator nie przekroczy rozmaiaru tablicy wracamy do tej samej funkcji
-                    sendData();
-                else
-                {
-                    temp="Y".getBytes();
-                    myBluetooth.write(temp);
-                }
-            }
-        }, 50);
-    }
 
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
