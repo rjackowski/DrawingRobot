@@ -18,16 +18,19 @@ public class handMode extends Activity {
     ImageButton btnTurnRight;
     ImageButton btnForward;
     ImageButton btnBackward;
-    Bluetooth myBluetooth;
+    private Bluetooth myBluetooth;
+    private Intent intent;
+    private  Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hand_mode);
-
+        intent = this.getIntent();
+        bundle = intent.getExtras();
 
 
         // To retrieve object in second Activity
-        myBluetooth = (Bluetooth)getIntent().getSerializableExtra("bluetoothObject");
+        myBluetooth = ((BluetoothApllication)this.getApplicationContext()).bluetoothObject;
 
 
         btnTurnLeft=(ImageButton)findViewById(R.id.btnTurnLeft);
@@ -39,7 +42,7 @@ public class handMode extends Activity {
             @Override
             public void onClick(View v) {
                 if(myBluetooth.isReady()) {
-                    myBluetooth
+                    myBluetooth.turnOff();
                 }
             }
         });

@@ -79,7 +79,7 @@ public class autoMode extends Activity {
     class SketchSheetView extends View {
 
         public SketchSheetView(Context context) {
-            super(context); // wywolania konstruktora klasy nadrzedneh
+            super(context);
             bitmap = Bitmap.createBitmap(820, 480, Bitmap.Config.ARGB_4444);
             canvas = new Canvas(bitmap); // plotno
             this.setBackgroundColor(Color.WHITE); // ustawianie koloru rysowania

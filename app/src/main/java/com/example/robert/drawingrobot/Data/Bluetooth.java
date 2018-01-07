@@ -65,11 +65,11 @@ public class Bluetooth implements Serializable{
         mmOutStream = tmpOut;
     }
     public boolean isReady() {
-        if(mmInStream != null && mmSocket != null && mmDevice !=null && BA != null && mmOutStream !=null ) {
-            return true;
+        if(mmInStream == null || mmSocket == null || mmDevice ==null || BA == null || mmOutStream ==null ) {
+            return false;
         }
         else
-            return false;
+            return true;
     }
 
 
@@ -93,9 +93,8 @@ public class Bluetooth implements Serializable{
             mmOutStream.write(bytes);
         } catch (IOException e) { }
     }
-
-    public void bluetoothTurnOff() // wylaczanie bluetootha
-    {
+    // wylaczanie bluetootha
+    public void  turnOff() {
         BA.disable();
     }
 

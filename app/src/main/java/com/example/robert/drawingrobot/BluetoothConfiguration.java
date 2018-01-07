@@ -40,8 +40,8 @@ public class BluetoothConfiguration extends Activity {
     Bluetooth myBluetooth;
 
 
-    Intent intent = new Intent();
-    Bundle bundle = new Bundle();
+    private Intent myIntent;
+    private Bundle myBundle;
 
     private Set<BluetoothDevice> pairedDevices;
     Button btnBluetoothInit,btnBluetoothTurnOff, btnDiscoverDevices, btnSend;
@@ -49,6 +49,7 @@ public class BluetoothConfiguration extends Activity {
     private ArrayAdapter<String> adapter ;
     private ArrayAdapter<String> adapterForDiscoveredDevices;
     ArrayList<BluetoothDevice> list = new ArrayList<>();
+
 
 
     String znak="X";
@@ -63,13 +64,17 @@ public class BluetoothConfiguration extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_configuration);
         BA = BluetoothAdapter.getDefaultAdapter();
-        myBluetooth = new Bluetooth(BA);
+        myBluetooth = ((BluetoothApllication)this.getApplicationContext()).bluetoothObject;
+        //myBluetooth = new Bluetooth(BA);
         btnBluetoothInit=(Button)findViewById(R.id.btnBluetoothInit);
         btnBluetoothTurnOff=(Button)findViewById(R.id.btnBluetoothTurnOff);
         btnDiscoverDevices=(Button)findViewById(R.id.btnDiscoverDevices);
         btnSend=(Button)findViewById(R.id.btnSend);
         listPairedDevices=(ListView) findViewById(R.id.listPairedDevices);
         listDiscoveredDevices=(ListView) findViewById(R.id.listDiscoveredDevices);
+        myIntent = this.getIntent();
+        myBundle = new Bundle();
+
 
         btnBluetoothInit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,7 +85,7 @@ public class BluetoothConfiguration extends Activity {
         btnBluetoothTurnOff.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myBluetooth.bluetoothTurnOff();
+                myBluetooth.turnOff();
             }
         });
 
@@ -154,9 +159,12 @@ public class BluetoothConfiguration extends Activity {
     public void onResume() {
         super.onResume();
         //To pass:
-        if(myBluetooth.isReady())
-            intent.putExtra("bluetoothObject",  myBluetooth);
         registerReceiver(mReceiver, filter);
+    }
+
+    public void onDestroy() {
+        super.onDestroy();
+        ((BluetoothApllication)this.getApplicationContext()).bluetoothObject = myBluetooth;
     }
 
     public void sendData()
