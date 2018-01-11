@@ -17,8 +17,16 @@ import java.util.Collections;
 // Class for keeping trajectory and changing into commendList
 public class calculateTrajectory {
 
+    public ArrayList<String> getCommandList() {
+        return commandList;
+    }
+
+    public ArrayList<Location> getLocationList() {
+        return locationList;
+    }
+
     private ArrayList<Location> locationList = new ArrayList<>();
-    public ArrayList<String> commandList = new ArrayList<>();
+    private ArrayList<String> commandList = new ArrayList<>();
     public void addElement(float x, float y,int marker) {
         Location temp= new Location(x,y,marker);
         locationList.add(temp);

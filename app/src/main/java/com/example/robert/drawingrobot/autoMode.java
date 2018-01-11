@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Toast;
 
+import com.example.robert.drawingrobot.Data.Bluetooth;
 import com.example.robert.drawingrobot.Data.SketchSheetView;
 
 import java.util.ArrayList;
@@ -26,8 +27,8 @@ public class autoMode extends Activity {
     RelativeLayout relativeLayout;
     private SketchSheetView view;
     Button btnClear, btnConfirm;
-    calculateTrajectory myTrajectory;
-
+    private calculateTrajectory myTrajectory;
+    private Bluetooth myBluetooth;
     @Override
     protected void onCreate(Bundle savedInstanceState) { // tworzenie projektu
         super.onCreate(savedInstanceState);
@@ -37,7 +38,7 @@ public class autoMode extends Activity {
         btnConfirm = (Button)findViewById(R.id.btnConfirm);
         view = new SketchSheetView(autoMode.this); // obiekt o klasie view do rysowania
         myTrajectory = new calculateTrajectory();
-
+        myBluetooth = ((BluetoothApllication)this.getApplicationContext()).bluetoothObject;
         relativeLayout.addView(view, new LayoutParams(
                 RelativeLayout.LayoutParams.MATCH_PARENT,
                 RelativeLayout.LayoutParams.MATCH_PARENT));
@@ -54,13 +55,23 @@ public class autoMode extends Activity {
             @Override
             public void onClick(View v) {
                 myTrajectory = view.getTrajectory();
-                if(myTrajectory!= null) {
+                if(myTrajectory.getLocationList()!= null) {
                     myTrajectory.calculate();
-                    Intent dest = new Intent(new Intent(getApplicationContext(), BluetoothConfiguration.class));
-                    Bundle b = new Bundle();
-                    b.putStringArrayList("dane", myTrajectory.commandList);
-                    dest.putExtras(b);
-                    startActivity(dest);
+                    if(myBluetooth.isReady()) {
+                        new Thread(new Runnable() {
+                            public void run() {
+                                myBluetooth.sendArrayList(myTrajectory.getCommandList());
+                            }
+                        }).start();
+
+                    }
+                    else
+                        Toast.makeText(getApplicationContext(), "First configure Bluetooth connection", Toast.LENGTH_LONG).show();
+                   // Intent dest = new Intent(new Intent(getApplicationContext(), BluetoothConfiguration.class));
+                   // Bundle b = new Bundle();
+                   //b.putStringArrayList("dane", myTrajectory.commandList);
+                   // dest.putExtras(b);
+                   // startActivity(dest);
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "First write something on View", Toast.LENGTH_LONG).show();

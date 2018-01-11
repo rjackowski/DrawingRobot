@@ -28,12 +28,8 @@ public class handMode extends Activity {
         setContentView(R.layout.activity_hand_mode);
         intent = this.getIntent();
         bundle = intent.getExtras();
-
-
-        // To retrieve object in second Activity
+        // Retrievieng object in second Activity
         myBluetooth = ((BluetoothApllication)this.getApplicationContext()).bluetoothObject;
-
-
         btnTurnLeft=(ImageButton)findViewById(R.id.btnTurnLeft);
         btnTurnRight=(ImageButton)findViewById(R.id.btnTurnRight);
         btnForward=(ImageButton)findViewById(R.id.btnForward);
