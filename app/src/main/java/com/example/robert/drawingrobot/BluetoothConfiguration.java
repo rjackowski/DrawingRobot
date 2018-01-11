@@ -96,23 +96,13 @@ public class BluetoothConfiguration extends Activity {
             }
         });
 
-
         btnSend.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
                 dane= getIntent().getStringArrayListExtra("dane");
                 myBluetooth.sendArrayList(dane);
-
-//                byte[] temp;
-//                temp=znak.getBytes();
-//                myBluetooth.write(temp);
-//                iterator=0;
-//                sendData();
-                //Toast.makeText(getApplicationContext(), znak, Toast.LENGTH_LONG).show();
-                   ;
             }
         });
-
 
         listDiscoveredDevices.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v, int pos, long id) {
@@ -122,20 +112,16 @@ public class BluetoothConfiguration extends Activity {
 
     }
 
-    public void bluetoothInit() // uruchamianie bluetootha
-    {
-        if(!BA.isEnabled())
-        {
+    public void bluetoothInit() { // uruchamianie bluetootha
+        if(!BA.isEnabled()) {
             Intent turnOn = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
             startActivityForResult(turnOn, 0);
             Toast.makeText(getApplicationContext(), "Turned on", Toast.LENGTH_LONG).show();
         }
-
     }
 
     // pozyskiwanie i wyswietlanie sparowanych urzadzen
-    protected void getPairedDevices()
-    {
+    protected void getPairedDevices() {
         if(BA.isEnabled()) {
             pairedDevices = BA.getBondedDevices();
             ArrayList<String> list = new ArrayList<String>();
@@ -150,9 +136,6 @@ public class BluetoothConfiguration extends Activity {
             Toast.makeText(getApplicationContext(), this.getString(R.string.info_bluetoothOff), Toast.LENGTH_SHORT).show();
     }
 
-
-
-
     public void onPause() {
         unregisterReceiver(mReceiver);
         super.onPause();
@@ -160,7 +143,6 @@ public class BluetoothConfiguration extends Activity {
 
     public void onResume() {
         super.onResume();
-        //To pass:
         registerReceiver(mReceiver, filter);
     }
 
@@ -168,8 +150,6 @@ public class BluetoothConfiguration extends Activity {
         super.onDestroy();
         ((BluetoothApllication)this.getApplicationContext()).bluetoothObject = myBluetooth;
     }
-
-
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         public void onReceive(Context context, Intent intent) {
@@ -183,8 +163,6 @@ public class BluetoothConfiguration extends Activity {
             }
         }
     };
-
-
 
     // poszukiwanie i wyswietlanie nowych urzadzen
     public void discoverNewDevices() {

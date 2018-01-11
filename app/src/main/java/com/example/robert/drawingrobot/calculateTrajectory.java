@@ -30,16 +30,6 @@ public class calculateTrajectory {
     public void calculate()
     {
         ArrayList<Location> locationListAfterOptimization;
-
-//        String locationListString = "";
-//        locationListString = "";
-//        String locationListAfterOptimizationString = "";
-//        for (Location s : locationList) {
-//            locationListString += s.getX() + "|" + s.getY() + ";";
-//        }
-//        for (Location s : locationListAfterOptimization) {
-//            locationListAfterOptimizationString += s.getX() + "|" + s.getY() + ";";
-//        }
         locationListAfterOptimization = DouglasPeucker ( locationList , 0.00001f); // Optimization number of points using DouglasPeucker algorithm
         for(int i=0;i<locationListAfterOptimization.size();i++) { // changing locationList into commendlist
             float temp_distance = 0;
