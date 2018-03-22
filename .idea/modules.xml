@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/DrawingRobot.iml" filepath="$PROJECT_DIR$/DrawingRobot.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/drawingRobot.iml" filepath="$PROJECT_DIR$/drawingRobot.iml" />
+      <module fileurl="file://C:\Dane\Programy\Android\DrawingRobot\DrawingRobot-master\DrawingRobot\app\app.iml" filepath="C:\Dane\Programy\Android\DrawingRobot\DrawingRobot-master\DrawingRobot\app\app.iml" />
+      <module fileurl="file://C:\Dane\Programy\Android\DrawingRobot\DrawingRobot-master\DrawingRobot\drawingRobot.iml" filepath="C:\Dane\Programy\Android\DrawingRobot\DrawingRobot-master\DrawingRobot\drawingRobot.iml" />
     </modules>
   </component>
 </project>
