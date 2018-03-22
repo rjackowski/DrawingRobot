@@ -77,6 +77,7 @@ public class autoMode extends Activity {
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "First write something on View", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getApplicationContext(), "First write something on View", Toast.LENGTH_LONG).show();
                 }
             }
         });
